@@ -1,0 +1,38 @@
+name: Build & Test (Pull Request)
+on:
+  pull_request:
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    environment: qa
+
+    steps:
+      - name: Repository checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install yarn
+        run: npm install -g yarn
+
+      - name: Setup node & cache node-modules
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "yarn"
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Check formatting
+        run: yarn format:check
+
+      - name: Lint
+        run: |
+          yarn lint:check
+          yarn type-check
+          yarn type-check-clean
+
+      - name: Test
+        run: yarn test
