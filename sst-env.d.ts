@@ -5,15 +5,6 @@
 
 declare module "sst" {
   export interface Resource {
-    "SuperHeroApi": {
-      "name": string
-      "type": "sst.aws.Function"
-      "url": string
-    }
-    "SuperHeroTable": {
-      "name": string
-      "type": "sst.aws.Dynamo"
-    }
   }
 }
 /// <reference path="sst-env.d.ts" />
