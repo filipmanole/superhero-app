@@ -12,17 +12,17 @@ type ListSuperheroesResponse = {
 @Injectable()
 export class SuperheroService {
   async list(params: ListSuperheroesDto): Promise<ListSuperheroesResponse> {
-    const { limit, startKey } = params;
+    const { limit, startKey, ascending } = params;
 
     try {
       const getResponse = await documentClient.query({
         TableName: Resource.SuperHeroTable.name,
-        ScanIndexForward: true,
+        ScanIndexForward: ascending ?? false,
         IndexName: "GSI1",
         KeyConditionExpression: "#gsi1pk = :gsi1pk",
         ExpressionAttributeNames: { "#gsi1pk": "GSI1PK" },
         ExpressionAttributeValues: { ":gsi1pk": "SUPERHEROES" },
-        Limit: limit ?? 10,
+        Limit: limit ? parseInt(limit as any) : 10,
         ...(startKey && { ExclusiveStartKey: JSON.parse(startKey) }),
       });
 
@@ -43,7 +43,10 @@ export class SuperheroService {
     try {
       await documentClient.put({
         TableName: Resource.SuperHeroTable.name,
-        Item: superhero.toItem(),
+        Item: {
+          ...superhero.toItem(),
+          ttl: Math.floor(Date.now() / 1000) + 30 * 60,
+        },
         ConditionExpression: "attribute_not_exists(PK)",
       });
 

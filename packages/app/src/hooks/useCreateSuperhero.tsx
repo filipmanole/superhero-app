@@ -11,7 +11,7 @@ type CreateSuperheroType = {
   data: SuperheroDto | null;
   error: any;
   loading: boolean;
-  createSuperhero: (args: CreateSuperheroInput) => void;
+  createSuperhero: (args: CreateSuperheroInput) => Promise<SuperheroDto>;
 };
 
 export const useCreateSuperhero = (): CreateSuperheroType => {
@@ -41,6 +41,7 @@ export const useCreateSuperhero = (): CreateSuperheroType => {
 
       const responseData = await response.json();
       setData(responseData);
+      return responseData;
     } catch (err) {
       setError(err);
     } finally {

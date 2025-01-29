@@ -1,4 +1,5 @@
 import {
+  IsBoolean,
   IsInt,
   IsNumber,
   IsOptional,
@@ -31,4 +32,8 @@ export class ListSuperheroesDto {
   @IsString()
   @IsOptional()
   startKey?: string;
+
+  @IsBoolean()
+  @IsOptional()
+  ascending?: boolean;
 }

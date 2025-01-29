@@ -13,7 +13,6 @@ describe("Superheroes API tests", () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
-
     app.useGlobalPipes(
       new ValidationPipe({
         transform: true,

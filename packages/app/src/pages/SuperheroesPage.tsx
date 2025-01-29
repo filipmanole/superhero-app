@@ -24,6 +24,7 @@ import { useListSuperheroes } from "@/hooks";
 import { format } from "date-fns";
 
 export const SuperheroesPage: React.FC = () => {
+  const PAGE_ITEMS = 10;
   const { data, error, loading, listSuperheroes } = useListSuperheroes();
   const [lastKeys, setLastKeys] = useState<string[]>([]);
   const [apiKey] = useLocalStorage<string | null>("apiKey");
@@ -31,20 +32,21 @@ export const SuperheroesPage: React.FC = () => {
   const showTable = !!superheroes?.length;
 
   useEffect(() => {
-    if (!data?.nodes) return;
+    if (!data?.nodes.length) return;
     setSuperheroes(data.nodes);
   }, [data]);
 
   useEffect(() => {
-    listSuperheroes(10);
+    listSuperheroes(PAGE_ITEMS);
   }, []);
 
   return (
     <div className="flex items-center justify-center min-h-screen">
-      <Card className="">
-        <CardHeader>
+      <Card>
+        <div className="flex justify-between items-center p-6 w-[450px]">
           <CardTitle className="text-center">Available Superheroes</CardTitle>
-        </CardHeader>
+          <CreateSuperheroModal />
+        </div>
 
         <Separator className="mb-2" />
 
@@ -56,18 +58,8 @@ export const SuperheroesPage: React.FC = () => {
           ) : !apiKey ? (
             <WarningMessage message="Insert SECRET KEY to fetch superheroes..." />
           ) : showTable ? (
-            <Table
-              aria-label="Files"
-              // selectedKeys={new Set(organizationId ? [organizationId] : [])}
-              // selectionMode="single"
-              // onSelectionChange={(keys) => {
-              //   setOrganizationId(Array.from(keys)[0]?.toString() ?? null);
-              // }}
-            >
+            <Table aria-label="Files">
               <TableHeader>
-                <Column width={40} minWidth={40}>
-                  <Checkbox slot="selection" />
-                </Column>
                 <Column isRowHeader>Name</Column>
                 <Column>Superpower</Column>
                 <Column>Humility Score</Column>
@@ -76,9 +68,6 @@ export const SuperheroesPage: React.FC = () => {
               <TableBody>
                 {superheroes.map((sh) => (
                   <Row key={sh.superheroId} id={sh.superheroId}>
-                    <Cell>
-                      <Checkbox slot="selection" />
-                    </Cell>
                     <Cell>{sh.name}</Cell>
                     <Cell>{sh.superpower}</Cell>
                     <Cell>{sh.humilityScore}</Cell>
@@ -95,43 +84,49 @@ export const SuperheroesPage: React.FC = () => {
         </div>
 
         {showTable && (
-          <CardFooter className="flex justify-center">
-            <div className="flex gap-4 justify-center">
-              <Button
-                variant="outline"
-                size="icon"
-                onPress={() => {
-                  if (lastKeys.length > 1) {
-                    setLastKeys((prev) => {
-                      const updatedKeys = prev.slice(0, -1);
-                      listSuperheroes(10, updatedKeys[updatedKeys.length - 1]);
-                      return updatedKeys;
-                    });
-                  } else if (lastKeys.length === 1) {
-                    setLastKeys([]);
-                    listSuperheroes(10);
-                  }
-                }}
-              >
-                <ChevronLeft />
-              </Button>
-              <Button
-                variant="outline"
-                size="icon"
-                onPress={() => {
-                  const lastKey = data?.lastKey;
-                  if (!lastKey) return;
+          <>
+            <Separator className="mb-4" />
+            <CardFooter className="flex justify-center">
+              <div className="flex gap-4 justify-center">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onPress={() => {
+                    if (lastKeys.length > 1) {
+                      setLastKeys((prev) => {
+                        const updatedKeys = prev.slice(0, -1);
+                        listSuperheroes(
+                          PAGE_ITEMS,
+                          updatedKeys[updatedKeys.length - 1]
+                        );
+                        return updatedKeys;
+                      });
+                    } else if (lastKeys.length === 1) {
+                      setLastKeys([]);
+                      listSuperheroes(PAGE_ITEMS);
+                    }
+                  }}
+                >
+                  <ChevronLeft />
+                </Button>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onPress={() => {
+                    const lastKey = data?.lastKey;
+                    if (!lastKey) return;
 
-                  setLastKeys((prev) => [...prev, lastKey]);
-                  listSuperheroes(10, lastKey);
-                }}
-              >
-                <ChevronRight />
-              </Button>
-            </div>
-          </CardFooter>
+                    console.log(lastKey);
+                    setLastKeys((prev) => [...prev, lastKey]);
+                    listSuperheroes(PAGE_ITEMS, lastKey);
+                  }}
+                >
+                  <ChevronRight />
+                </Button>
+              </div>
+            </CardFooter>
+          </>
         )}
-        <CreateSuperheroModal />
       </Card>
     </div>
   );

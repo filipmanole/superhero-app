@@ -11,6 +11,8 @@ export const superHeroFunction = new sst.aws.Function("SuperHeroApi", {
       "@nestjs/platform-express",
       "reflect-metadata",
       "rxjs",
+      "class-transformer",
+      "class-validator",
     ],
     esbuild: {
       external: [
@@ -19,6 +21,8 @@ export const superHeroFunction = new sst.aws.Function("SuperHeroApi", {
         "@nestjs/platform-express",
         "reflect-metadata",
         "rxjs",
+        "class-transformer",
+        "class-validator",
       ],
     },
   },
