@@ -5,6 +5,19 @@
 
 declare module "sst" {
   export interface Resource {
+    "RemindlyApp": {
+      "type": "sst.aws.StaticSite"
+      "url": string
+    }
+    "SuperHeroApi": {
+      "name": string
+      "type": "sst.aws.Function"
+      "url": string
+    }
+    "SuperHeroTable": {
+      "name": string
+      "type": "sst.aws.Dynamo"
+    }
   }
 }
 /// <reference path="sst-env.d.ts" />

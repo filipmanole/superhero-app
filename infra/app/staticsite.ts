@@ -1,3 +1,5 @@
+import { superHeroFunction } from "../api";
+
 export const app = new sst.aws.StaticSite("RemindlyApp", {
   path: "./packages/app",
   build: {
@@ -5,6 +7,6 @@ export const app = new sst.aws.StaticSite("RemindlyApp", {
     output: "dist",
   },
   environment: {
-    VITE_SAMPLE: "SAMPLE",
+    VITE_API_URL: superHeroFunction.url,
   },
 });

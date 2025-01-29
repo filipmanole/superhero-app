@@ -5,8 +5,32 @@ import { AppModule } from "./app.module";
 
 let server: Handler;
 
+import {
+  ArgumentMetadata,
+  Injectable,
+  PipeTransform,
+  ValidationPipe,
+} from "@nestjs/common";
+
+@Injectable()
+export class LoggingValidationPipe extends ValidationPipe {
+  async transform(value: any, metadata: ArgumentMetadata) {
+    console.log(`🚀 Running validation on:`, value);
+    return super.transform(value, metadata);
+  }
+}
+
 async function bootstrap(): Promise<Handler> {
   const app = await NestFactory.create(AppModule);
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      whitelist: true, // Removes unknown fields
+      forbidNonWhitelisted: true, // Rejects unknown fields
+    })
+  );
+
   await app.init();
 
   const expressApp = app.getHttpAdapter().getInstance();

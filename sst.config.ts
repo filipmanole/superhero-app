@@ -15,7 +15,6 @@ export default $config({
   },
   async run() {
     await import("./infra/api");
-    // await import("./infra/app");
-    // await import("./infra/secrets");
+    await import("./infra/app");
   },
 });
