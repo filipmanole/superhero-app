@@ -13,26 +13,16 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install yarn
-        run: npm install -g yarn
+      - name: Install bun
+        run: npm install -g bun
 
-      - name: Setup node & cache node-modules
-        uses: actions/setup-node@v4
+      - name: Setup bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: 22
-          cache: "yarn"
+          bun-version: latest
 
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-
-      - name: Check formatting
-        run: yarn format:check
-
-      - name: Lint
-        run: |
-          yarn lint:check
-          yarn type-check
-          yarn type-check-clean
+      - name: Install Dependencies
+        run: bun install --frozen-lockfile
 
       - name: Test
-        run: yarn test
+        run: bun run --filter @superhero/api test:e2e
