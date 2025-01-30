@@ -56,7 +56,7 @@ Steps to follow:
 # If I had more time...
 
 - Debug for class validation in NestJS. The global pipe is not working, resulting in all requests parameters are not validated.
-  [Reference doc](https://docs.nestjs.com/techniques/validation)
+  [Reference doc](https://docs.nestjs.com/techniques/validation). Reading about this, it might be an esbuild problem.
 - Add more e2e tests for parameters check, after validation is working
 - Github actions to automatically run tests and deploy app
 
