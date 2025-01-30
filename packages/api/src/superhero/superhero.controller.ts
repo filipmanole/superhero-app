@@ -9,7 +9,6 @@ export class SuperheroController {
 
   @Post()
   create(@Body() params: CreateSuperheroDto) {
-    return "OKKKKKKKK";
     return this.superheroService.create(params);
   }
 
