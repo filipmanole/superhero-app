@@ -1,6 +1,6 @@
 # The Superhero App
 
-This is an application build using SST framework and it leverages AWS services.
+This is an application built using SST framework and it leverages AWS services.
 
 ## Backend
 
@@ -8,7 +8,7 @@ The API is built with NestJS framework and deployed in a Lambda function followi
 
 ## Frontend
 
-The UI is build with React, Tailwind, JollyUI components and deployed in an S3 bucket with a CloudFront distribution.
+The UI is built with React, Tailwind, JollyUI components and deployed in an S3 bucket with a CloudFront distribution.
 
 # Start development
 
