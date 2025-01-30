@@ -45,7 +45,7 @@ export class SuperheroEntity {
   }
 
   get GSI1SK() {
-    return `SCORE#${this.humilityScore}`;
+    return `SCORE#${String(this.humilityScore).padStart(2, "0")}`;
   }
 
   toDto(): Superhero {
