@@ -1,8 +1,9 @@
+import { secretKey } from "../secrets";
 import { SuperHeroTable } from "./dynamo";
 
 export const superHeroFunction = new sst.aws.Function("SuperHeroApi", {
   url: true,
-  link: [SuperHeroTable],
+  link: [SuperHeroTable, secretKey],
   handler: "packages/api/src/main.handler",
   nodejs: {
     install: [

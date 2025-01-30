@@ -9,6 +9,10 @@ declare module "sst" {
       "type": "sst.aws.StaticSite"
       "url": string
     }
+    "SecretKey": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
     "SuperHeroApi": {
       "name": string
       "type": "sst.aws.Function"
