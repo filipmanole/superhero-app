@@ -1,7 +1,4 @@
-import { beforeAll, afterAll, describe, expect, it } from "vitest";
-import { Test, TestingModule } from "@nestjs/testing";
-import { INestApplication, ValidationPipe } from "@nestjs/common";
-import { AppModule } from "../src/app.module";
+import { beforeAll, describe, expect, it } from "vitest";
 import { Resource } from "sst";
 
 const getRandomScore = () => Math.floor(Math.random() * 10) + 1;
@@ -19,32 +16,6 @@ const fetchRequest = async (url, options = {}) => {
 };
 
 describe("Superheroes API tests", () => {
-  // let app: INestApplication;
-  // let server;
-
-  // beforeAll(async () => {
-  //   const moduleFixture: TestingModule = await Test.createTestingModule({
-  //     imports: [AppModule],
-  //   }).compile();
-
-  //   app = moduleFixture.createNestApplication();
-  //   app.useGlobalPipes(
-  //     new ValidationPipe({
-  //       transform: true,
-  //       whitelist: true,
-  //       forbidNonWhitelisted: true,
-  //     })
-  //   );
-
-  //   await app.init();
-  //   server = app.getHttpServer().listen(3000);
-  // });
-
-  // afterAll(async () => {
-  //   await app.close();
-  //   server.close();
-  // });
-
   describe("GET /status", () => {
     it("should return status ok", async () => {
       const res = await fetchRequest("/status");
