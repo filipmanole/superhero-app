@@ -1,5 +1,6 @@
 import { useState, useCallback } from "react";
 import { SuperheroDto } from "./type";
+import { useLocalStorage } from "@uidotdev/usehooks";
 
 type ListSuperheroesResponse = {
   lastKey: string;
@@ -14,6 +15,7 @@ type ListSuperheroesType = {
 };
 
 export const useListSuperheroes = (): ListSuperheroesType => {
+  const [apiKey] = useLocalStorage<string | null>("apiKey", null);
   const [data, setData] = useState<ListSuperheroesResponse | null>(null);
   const [error, setError] = useState<any>(null);
   const [loading, setLoading] = useState(false);
@@ -32,6 +34,7 @@ export const useListSuperheroes = (): ListSuperheroesType => {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
+            "x-api-key": apiKey ?? "",
           },
         });
 
@@ -47,7 +50,7 @@ export const useListSuperheroes = (): ListSuperheroesType => {
         setLoading(false);
       }
     },
-    []
+    [apiKey]
   );
 
   return { data, error, loading, listSuperheroes };

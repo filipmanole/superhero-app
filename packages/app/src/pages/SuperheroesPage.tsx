@@ -29,32 +29,37 @@ export const SuperheroesPage: React.FC = () => {
   const [superheroes, setSuperheroes] = useState<SuperheroDto[] | null>(null);
   const showTable = !!superheroes?.length;
 
+  const getLastKey = () => {
+    if (lastKeys.length === 0) return;
+    return lastKeys[lastKeys.length - 1];
+  };
+
   useEffect(() => {
     if (!data?.nodes.length) return;
     setSuperheroes(data.nodes);
   }, [data]);
 
   useEffect(() => {
-    listSuperheroes(PAGE_ITEMS);
-  }, []);
+    listSuperheroes(PAGE_ITEMS, getLastKey());
+  }, [apiKey]);
 
   return (
     <div className="flex items-center justify-center min-h-screen">
       <Card>
         <div className="flex justify-between items-center p-6 w-[450px]">
           <CardTitle className="text-center">Available Superheroes</CardTitle>
-          <CreateSuperheroModal />
+          <CreateSuperheroModal createCb={() => listSuperheroes(PAGE_ITEMS)} />
         </div>
 
         <Separator className="mb-2" />
 
         <div className="flex flex-col justify-center p-4">
-          {loading ? (
-            <LoadingSpinner />
+          {!apiKey ? (
+            <WarningMessage message="Insert SECRET KEY to fetch superheroes..." />
           ) : error ? (
             <WarningMessage message={error?.message} />
-          ) : !apiKey ? (
-            <WarningMessage message="Insert SECRET KEY to fetch superheroes..." />
+          ) : loading ? (
+            <LoadingSpinner />
           ) : showTable ? (
             <Table aria-label="Files">
               <TableHeader>
@@ -114,7 +119,6 @@ export const SuperheroesPage: React.FC = () => {
                     const lastKey = data?.lastKey;
                     if (!lastKey) return;
 
-                    console.log(lastKey);
                     setLastKeys((prev) => [...prev, lastKey]);
                     listSuperheroes(PAGE_ITEMS, lastKey);
                   }}

@@ -17,8 +17,12 @@ import { useState } from "react";
 import { useCreateSuperhero } from "@/hooks";
 import { Slider, SliderFillTrack, SliderThumb } from "./ui/slider";
 
-type CreateSuperheroModalProps = {};
-export const CreateSuperheroModal: React.FC<CreateSuperheroModalProps> = () => {
+type CreateSuperheroModalProps = {
+  createCb: () => void;
+};
+export const CreateSuperheroModal: React.FC<CreateSuperheroModalProps> = ({
+  createCb,
+}) => {
   const [name, setName] = useState<string | null>(null);
   const [superpower, setSuperpower] = useState<string | null>(null);
   const [humilityScore, setHumilityScore] = useState<number | null>(null);
@@ -29,7 +33,10 @@ export const CreateSuperheroModal: React.FC<CreateSuperheroModalProps> = () => {
     if (!name || !superpower || !humilityScore) return;
     await createSuperhero({ name, superpower, humilityScore });
 
-    if (!error) close();
+    if (!error) {
+      close();
+      createCb();
+    }
   };
 
   return (
