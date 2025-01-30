@@ -124,7 +124,7 @@ Paginated response to list superheroes
 ```json
 {
   "limit": "string", // default 10 items
-  "startKey": "string | undefined", // undefined - first page is fetched
+  "startKey": "string", // if missing, first page is fetched
   "ascending": "boolean" // sort by humilityScore
 }
 ```
