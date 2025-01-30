@@ -58,6 +58,7 @@ Steps to follow:
 - Debug for class validation in NestJS. The global pipe is not working, resulting in all requests parameters are not validated.
   [Reference doc](https://docs.nestjs.com/techniques/validation)
 - Add more e2e tests for parameters check, after validation is working
+- Github actions to automatically run tests and deploy app
 
 # API endpoints details
 
